@@ -72,3 +72,9 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+ACNH_Data/Saved/
+ACNH_Data/Intermediate/
+ACNH_Data/Config/
+ACNH_Data/Binaries/
+*.uproject
+*.vsconfig
