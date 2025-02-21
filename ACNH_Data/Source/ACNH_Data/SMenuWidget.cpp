@@ -78,14 +78,9 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 				.VAlign(VAlign_Center)
 				.HAlign(HAlign_Center)
 				.FillWidth(1)
+				.Padding(100.f)
 				[			
-					SNew(SScaleBox)
-					.HAlign(HAlign_Center)
-					.VAlign(VAlign_Center)
-					.Stretch(EStretch::ScaleToFit)
-					[
-						SNew(SMainMenuButtons)
-					]
+					SNew(SMainMenuButtons)
 				]
 			]
 		];
