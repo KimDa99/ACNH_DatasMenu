@@ -20,5 +20,12 @@ public:
 
 
 	FReply OnFishingClicked() const;
-	FReply OnCatalogueClicked() const;
+
+	TSharedRef<SWidget> CreateButton(USlateWidgetStyleAsset* ButtonStyle,
+		FReply(SMainMenuButtons::* OnClickFunc)()const,
+		const FSlateBrush* ImageBrush,
+		const FSlateFontInfo& FontInfo,
+		const FString& ButtonText,
+		const FMargin& Padding);
+
 };

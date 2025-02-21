@@ -25,6 +25,8 @@ void SMainMenuButtons::Construct(const FArguments& InArgs)
 	ShoppingBrush->SetResourceObject(ShoppingButtonTexture);
 	ShoppingBrush->SetImageSize(FVector2D(256.f, 256.f));
 
+	const FMargin ButtonPadding(20.f);
+
 	ChildSlot
 	[
 		SNew(SVerticalBox)
@@ -32,77 +34,19 @@ void SMainMenuButtons::Construct(const FArguments& InArgs)
 		// Creature button
 		+SVerticalBox::Slot()
 		.AutoHeight()
-		.Padding(20.f)		
+		.Padding(ButtonPadding)
+		.HAlign(HAlign_Left)
 		[
-			SNew(SScaleBox)
-			[
-				SNew(SButton)
-				.OnClicked(this, &SMainMenuButtons::OnFishingClicked)
-				.VAlign(VAlign_Center)
-				.ButtonStyle(ButtonStyle)
-				[
-					SNew(SHorizontalBox)
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					.Padding(20.f)
-					.VAlign(VAlign_Center)
-					[
-						SNew(SImage)
-						.Image(CreatureBrush)
-					]
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					.Padding(20.f)
-					.VAlign(VAlign_Top)
-					[
-						SNew(STextBlock)
-						.Font(ButtonStyleText)
-						.Text(FText::FromString("Creatures"))
-						.ColorAndOpacity(FColor::Black)
-					]
-				]
-			]
-
+			CreateButton(ButtonStyle, &SMainMenuButtons::OnFishingClicked, CreatureBrush, ButtonStyleText, "Fishing", ButtonPadding)
 		]
 
 		// Shopping button
 		+SVerticalBox::Slot()
 		.AutoHeight()
-		.Padding(20.f)		
+		.Padding(ButtonPadding)		
+		.HAlign(HAlign_Left)
 		[
-			SNew(SScaleBox)
-			[
-				SNew(SButton)
-				.OnClicked(this, &SMainMenuButtons::OnFishingClicked)
-				.ButtonStyle(ButtonStyle)
-				.VAlign(VAlign_Center)
-				[
-					SNew(SHorizontalBox)
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					.Padding(20.f)
-					.VAlign(VAlign_Center)
-					[
-						SNew(SImage)
-						.Image(ShoppingBrush)
-					]
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					.Padding(20.f)
-					.VAlign(VAlign_Top)
-					[
-						SNew(STextBlock)
-						.Font(ButtonStyleText)
-						.Text(FText::FromString("Shopping"))
-						.ColorAndOpacity(FColor::Black)
-					]
-				]
-			]
-
+			CreateButton(ButtonStyle, &SMainMenuButtons::OnFishingClicked, ShoppingBrush, ButtonStyleText, "Catalogue", ButtonPadding)
 		]
 
 	];
@@ -111,4 +55,40 @@ void SMainMenuButtons::Construct(const FArguments& InArgs)
 FReply SMainMenuButtons::OnFishingClicked() const
 {
 	return FReply::Handled();
+}
+
+TSharedRef<SWidget> SMainMenuButtons::CreateButton(USlateWidgetStyleAsset* ButtonStyle, FReply(SMainMenuButtons::* OnClickFunc)() const, const FSlateBrush* ImageBrush, const FSlateFontInfo& FontInfo, const FString& ButtonText, const FMargin& Padding)
+{
+	return SNew(SScaleBox)
+		[
+			SNew(SButton)
+			.OnClicked(this, OnClickFunc)
+			.ButtonStyle(ButtonStyle)
+			.VAlign(VAlign_Center)
+			[
+				SNew(SHorizontalBox)
+
+				+ SHorizontalBox::Slot()
+				.AutoWidth()
+				.Padding(Padding)
+				.VAlign(VAlign_Center)
+				[
+					SNew(SImage)
+					.Image(ImageBrush)
+				]
+
+				+ SHorizontalBox::Slot()
+				.AutoWidth()
+				.Padding(Padding)
+				.VAlign(VAlign_Top)
+				[
+					SNew(STextBlock)
+						.Font(FontInfo)
+						.Text(FText::FromString(ButtonText))
+						.ColorAndOpacity(FColor::Black)
+				]
+			]
+
+		];
+
 }
