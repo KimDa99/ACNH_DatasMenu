@@ -16,14 +16,6 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 
 	OwningHUD = InArgs._OwningHUD;
 
-	const FMargin ContentPadding = FMargin(400.0f, 400.0f);
-	const FMargin ButtonPadding = FMargin(10.0f);
-
-	const FText TitleText = LOCTEXT("GameTitle", "ACNH Data Center");
-
-	FSlateFontInfo TitleTextStyle = FCoreStyle::Get().GetFontStyle("EmbossedText");
-	TitleTextStyle.Size = 60.f;
-
 	UTexture2D* BackgroundTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/MainMenu_Background.MainMenu_Background"));
 	FSlateBrush* BackgroundBrush = new FSlateBrush();
 	BackgroundBrush->SetResourceObject(BackgroundTexture);
