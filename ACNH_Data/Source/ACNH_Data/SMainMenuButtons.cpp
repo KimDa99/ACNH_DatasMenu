@@ -14,31 +14,27 @@ void SMainMenuButtons::Construct(const FArguments& InArgs)
 
 	ChildSlot
 	[
-		SNew(SHorizontalBox)
+		SNew(SVerticalBox)
 
 		// Creature button
-		+ SHorizontalBox::Slot()
-		.FillWidth(2)
+		+ SVerticalBox::Slot()
 		[
 			SNew(SButton)
+			.OnClicked(this, &SMainMenuButtons::OnFishingClicked)
 			.ButtonStyle(CreaturesButtonStyle)
 		]
 
-		// Creature button
-		+ SHorizontalBox::Slot()
-		.FillWidth(1)
-		[
-			SNew(SSpacer)
-		]
-
-
 		// Catalogue button
-		+ SHorizontalBox::Slot()	
-		.FillWidth(2)
+		+ SVerticalBox::Slot()	
 		[
 			SNew(SButton)
 			.ButtonStyle(CatalogueButtonStyle)
 		]
 
 	];
+}
+
+FReply SMainMenuButtons::OnFishingClicked() const
+{
+	return FReply::Handled();
 }

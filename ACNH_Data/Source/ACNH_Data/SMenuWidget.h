@@ -20,10 +20,6 @@ public:
 
 	// compound widget is not UObject -> no garbage collecter -> manually manage object
 	TWeakObjectPtr<class AMenuHUD> OwningHUD;
-	FSlateBrush* img;
 
-	FReply OnFishingClicked() const;
 	FReply OnQuitClicked() const;
-
-	void OnGetBackGround();
 };

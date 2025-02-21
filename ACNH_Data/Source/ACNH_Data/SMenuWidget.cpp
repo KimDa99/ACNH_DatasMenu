@@ -2,8 +2,10 @@
 
 #include "SMenuWidget.h"
 
+#include "SlateCore.h"
 #include "SMainMenuButtons.h"
 #include "MenuHUD.h"
+#include "Widgets/Layout/SScaleBox.h"
 
 // for localization
 #define LOCTEXT_NAMESPACE "MainMenu"
@@ -14,86 +16,85 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 
 	OwningHUD = InArgs._OwningHUD;
 
-	const FMargin ContentPadding = FMargin(500.0f, 300.0f);
+	const FMargin ContentPadding = FMargin(400.0f, 400.0f);
 	const FMargin ButtonPadding = FMargin(10.0f);
 
 	const FText TitleText = LOCTEXT("GameTitle", "ACNH Data Center");
-	const FText FishingText = LOCTEXT("Fishing", "Fishing");
-	const FText QuitText = LOCTEXT("Quit", "Quit");
 
-	FSlateFontInfo ButtonTextStyle = FCoreStyle::Get().GetFontStyle("EmbossedText");
-	ButtonTextStyle.Size = 40.f;
-
-	FSlateFontInfo TitleTextStyle = ButtonTextStyle;
+	FSlateFontInfo TitleTextStyle = FCoreStyle::Get().GetFontStyle("EmbossedText");
 	TitleTextStyle.Size = 60.f;
 
-	FString BackGroundImagePath = "/Game/Images/MainBackGround.MainBackGround";
-	UTexture2D* BackgroundTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/Phone_Background.Phone_Background"));
+	UTexture2D* BackgroundTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/MainMenu_Background.MainMenu_Background"));
 	FSlateBrush* BackgroundBrush = new FSlateBrush();
+	BackgroundBrush->SetResourceObject(BackgroundTexture);
 
+	UTexture2D* BoardTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/MainMenu_Board.MainMenu_Board"));
+	FSlateBrush* BoardBrush = new FSlateBrush();
+	BoardBrush->SetResourceObject(BoardTexture);
 
-	if (BackgroundTexture)
-	{
-		BackgroundBrush->SetResourceObject(BackgroundTexture);
-		BackgroundBrush->ImageSize = FVector2D(1920.0f, 1080.0f); // 적절한 해상도로 설정
-	}
-
-	USlateWidgetStyleAsset* ButtonStyle = LoadObject<USlateWidgetStyleAsset>(nullptr, TEXT("/Game/Test/mainMenuButtons.mainMenuButtons"));
+	UTexture2D* LogoTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/MainMenu_Logo.MainMenu_Logo"));
+	FSlateBrush* LogoBrush = new FSlateBrush();
+	LogoBrush->SetResourceObject(LogoTexture);
+	LogoBrush->SetImageSize(FVector2D(1024.f, 1024.f));
 
 	ChildSlot
 		[
+			
 			SNew(SOverlay)
-			+SOverlay::Slot()
+			+SOverlay::Slot()	
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
 			[
 				SNew(SImage)
 				.Image(BackgroundBrush)
-				//.ColorAndOpacity(FColor::Blue)
+				
 			]
 
 			+SOverlay::Slot()
 			.HAlign(HAlign_Fill)
 			.VAlign(VAlign_Fill)
-			.Padding(ContentPadding)
-			
+			.Padding(50.0f)
 			[
-				SNew(SVerticalBox)
+				SNew(SImage)
+				.Image(BoardBrush)
+			]
+
+			+SOverlay::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			.Padding(100.0f)
+			[
+				SNew(SHorizontalBox)
 				
-				// Ttile Text
-				+SVerticalBox::Slot()
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Center)
+				.FillWidth(1)
 				[
-					SNew(STextBlock)
-					.Font(TitleTextStyle)
-					.Text(TitleText)
-					.Justification(ETextJustify::Center)
+					SNew(SScaleBox)
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					.Stretch(EStretch::ScaleToFit)
+					[
+						SNew(SImage)
+						.Image(LogoBrush)						
+					]
 				]
 
 				// Buttons box
-				+SVerticalBox::Slot()
-				
-				.Padding(ButtonPadding)
-				[
-					SNew(SMainMenuButtons)			
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Center)
+				.FillWidth(1)
+				[			
+					SNew(SScaleBox)
+					.HAlign(HAlign_Center)
+					.VAlign(VAlign_Center)
+					.Stretch(EStretch::ScaleToFit)
+					[
+						SNew(SMainMenuButtons)
+					]
 				]
-
-				//	// Quit Button
-				//	+SHorizontalBox::Slot()
-				//	.Padding(ButtonPadding)
-				//	[
-				//		SNew(SButton)
-				//		.OnClicked(this, &SMenuWidget::OnQuitClicked)
-				//		.VAlign(VAlign_Center)
-				//		[
-				//			SNew(STextBlock)
-				//			.Font(ButtonTextStyle)
-				//			.Text(QuitText)
-				//			.Justification(ETextJustify::Center)
-				//		]
-				//	]
-
-				//]
-			
 			]
 		];
 
